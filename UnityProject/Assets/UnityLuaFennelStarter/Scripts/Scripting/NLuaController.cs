@@ -1,3 +1,7 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
 using UnityEngine;
 using NLua;
 
@@ -10,7 +14,7 @@ public enum ScriptingLanguage
 
 public class NLuaController : MonoBehaviour
 {
-    Lua lua = new Lua();
+    public readonly Lua lua = new Lua();
     Bridge bridge;
 
     public TextAsset luaSearcher;
@@ -20,6 +24,8 @@ public class NLuaController : MonoBehaviour
     public TextAsset[] fennelScripts;
 
     public ScriptingLanguage defaultLanguage;
+
+    private List<String> _fennelModules = new();
 
     #region Unity Messages
     void Awake()
@@ -84,6 +90,14 @@ public class NLuaController : MonoBehaviour
             }
         }
     }
+    
+    public void RefreshFennelScript(string scriptName)
+    {
+        ConnectLuaToCLR();
+        LinkModulesToLua();
+        LoadLua();
+        LoadFennel();
+    }
 
     void LoadFennel()
     {
@@ -97,12 +111,17 @@ public class NLuaController : MonoBehaviour
             try
             {
                 lua.DoString(fennelScripts[i].name + " = require(\"" + fennelScripts[i].name + "\")");
+                _fennelModules.Add(fennelScripts[i].name);
             }
             catch (System.Exception e)
             {
                 Debug.LogError(e);
             }
         }
+    }
+
+    public void Run(string script) {
+        lua.DoString($"{script}");
     }
 
     void SetupDefaultScriptingLanguage()

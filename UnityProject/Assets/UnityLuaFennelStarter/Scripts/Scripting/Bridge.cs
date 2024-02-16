@@ -1,4 +1,5 @@
 using NLua;
+using UnityEngine;
 
 public class Bridge
 {
@@ -21,5 +22,9 @@ public class Bridge
     void SetupLuaInstance()
     {
         lua["Game"] = game;
+        lua["GameObject"] = new object();
+        lua["State"] = new object();
+        lua["deltaTime"] = Time.deltaTime;
+        lua["obj"] = new object();
     }
 }
