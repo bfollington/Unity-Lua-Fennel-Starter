@@ -26,5 +26,10 @@ public class Bridge
         lua["State"] = new object();
         lua["deltaTime"] = Time.deltaTime;
         lua["obj"] = new object();
+        
+        lua["arg1"] = new object();
+        lua["arg2"] = new object();
+        lua["arg3"] = new object();
+        lua["arg4"] = new object();
     }
 }

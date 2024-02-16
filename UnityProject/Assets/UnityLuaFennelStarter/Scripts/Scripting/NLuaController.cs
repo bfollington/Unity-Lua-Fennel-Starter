@@ -120,10 +120,6 @@ public class NLuaController : MonoBehaviour
         }
     }
 
-    public void Run(string script) {
-        lua.DoString($"{script}");
-    }
-
     void SetupDefaultScriptingLanguage()
     {
         switch (defaultLanguage)
